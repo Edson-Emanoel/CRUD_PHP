@@ -1,3 +1,9 @@
+<?php
+    require '../conexao.php';
+
+    $perfis = mysqli_query($conexao, "SELECT id, nome FROM perfil ORDER BY nome");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-    <?php include('navbar.php'); ?>
+    <?php include('../navbar.php'); ?>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
@@ -19,31 +25,46 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="acoes.php" method="POST">
+                        <form action="../acoes.php" method="POST">
                             <div class="mb-3">
-                                <label for="nome">Nome:</label>
+                                <label>Nome:</label>
                                 <input type="text" name="nome" class="form-control" />
                             </div>
-                            
+
                             <div class="mb-3">
-                                <label for="email">Email:</label>
+                                <label>Email:</label>
                                 <input type="text" name="email" class="form-control" />
                             </div>
 
                             <div class="mb-3">
-                                <label for="data_nasc">Data Nascimento:</label>
+                                <label>Data Nascimento:</label>
                                 <input type="date" name="data_nasc" class="form-control" />
                             </div>
 
                             <div class="mb-3">
-                                <label for="senha">Senha:</label>
+                                <label>Senha:</label>
                                 <input type="password" name="senha" class="form-control" />
                             </div>
 
                             <div class="mb-3">
-                                <button type="submit" name="salvar_usuario" class="btn btn-primary">Salvar Usuário</button>
+                                <label>Categoria / Perfil:</label>
+                                <select name="perfil_id" class="form-control" required>
+                                    <option value="">Selecione um perfil</option>
+                                    <?php while ($perfil = mysqli_fetch_assoc($perfis)) { ?>
+                                        <option value="<?= $perfil['id']; ?>">
+                                            <?= htmlspecialchars($perfil['nome']); ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" name="salvar_usuario" class="btn btn-primary">
+                                    Salvar Usuário
+                                </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
